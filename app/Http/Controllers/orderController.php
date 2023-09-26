@@ -14,7 +14,10 @@ class orderController extends Controller
    
     public function index()
     {
-        return order::orderBy('id_pesanan', 'asc')->get();
+        // return order::orderBy('id_pesanan', 'asc')->get();
+        
+        $data_order = order::getData()->sortDesc();
+        return view('order.index', compact('data_order'));
     }
     
 
@@ -70,6 +73,6 @@ class orderController extends Controller
         ini_set('max_execution_time', 600);
         ini_set('max_input_time', 600);
         ini_set('post_max_size', '2048M');
-        return Excel::download(new exportFileExcel, 'dataPemesanan.xlsx');
+        // return Excel::download(new exportFileExcel, 'dataPemesanan.xlsx');
     }
 }

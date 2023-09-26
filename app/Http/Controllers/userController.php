@@ -12,7 +12,9 @@ class userController extends Controller
     
     public function index()
     {
-        return user::orderBy('id_user', 'asc')->get();
+        $data_user = user::getAll()->sortDesc();
+        return view('user.index', compact('data_user'));
+
     }
 
     public function indexId($id_user = null)
@@ -32,27 +34,36 @@ class userController extends Controller
    
     public function create()
     {
-        
+        return view('user.create');
     }
 
     public function store(Request $request)
     {
-        $existingUser = User::where('email', $request->email)
-            ->orWhere('id_user', $request->id_user)
-            ->exists();
+        // $existingUser = User::where('email', $request->email)
+        //     ->orWhere('id_user', $request->id_user)
+        //     ->exists();
     
-        if ($existingUser) {
-            return "Email atau ID user sudah ada dalam database";
-        }
+        // if ($existingUser) {
+        //     return "Email atau ID user sudah ada dalam database";
+        // }
     
-        $user = new User;
-        $user->id_user = $request->id_user;
-        $user->name = $request->name; 
-        $user->email = $request->email; 
-        $user->password = $request->password; 
-        $user->save();
+        // $user = new User;
+        // $user->id_user = $request->id_user;
+        // $user->name = $request->name; 
+        // $user->email = $request->email; 
+        // $user->password = $request->password; 
+        // $user->save();
     
-        return "Data user berhasil ditambah";
+        // return "Data user berhasil ditambah";
+
+        user::create([
+            'id_user' => $request->id_user,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        return redirect()->to('/user');
     }
     
 
@@ -84,18 +95,29 @@ class userController extends Controller
    
     public function edit(string $id)
     {
+        $data_user = user::where('id_user',$id)->first();
         
+        return view('user.edit', compact('data_user'));
     }
 
   
     public function update(Request $request, string $id)
     {
-        
+        user::where('id_user', $id)->update([
+            'id_user' => $request->id_user,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        return redirect()->to('/user');
     }
 
     
     public function destroy(string $id)
     {
-        
+        user::where('id_user', $id)->delete();
+
+        return redirect()->to('/user');
     }
 }
