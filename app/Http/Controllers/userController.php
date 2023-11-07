@@ -10,114 +10,114 @@ use App\Models\login;
 class userController extends Controller
 {
     
+    // untuk menampilkan semua data 
     public function index()
     {
-        $data_user = user::getAll()->sortDesc();
+        // FORMAT HTML
+        $data_user = user::orderBy('id_user', 'asc')->get();
         return view('user.index', compact('data_user'));
 
+        // FORMAT JSON
+        // return user::orderBy('id_user', 'asc')->get();
     }
+    
 
-    public function indexId($id_user = null)
-    {
-        if ($id_user) {
-            $user = user::where('id_user', $id_user)->get();
-    
-            if ($user->isEmpty()) {
-                return "Id User tidak ditemukan";
-            }
-    
-            return $user;
-        } else {
-            return user::all();
-        }
-    }
-   
+    // function untuk melakukan aktivitas penambahan data baru pada format html
     public function create()
     {
         return view('user.create');
     }
 
+    // function untuk menambah data 
     public function store(Request $request)
     {
-        // $existingUser = User::where('email', $request->email)
-        //     ->orWhere('id_user', $request->id_user)
-        //     ->exists();
-    
-        // if ($existingUser) {
-        //     return "Email atau ID user sudah ada dalam database";
-        // }
-    
-        // $user = new User;
-        // $user->id_user = $request->id_user;
-        // $user->name = $request->name; 
-        // $user->email = $request->email; 
-        // $user->password = $request->password; 
-        // $user->save();
-    
-        // return "Data user berhasil ditambah";
 
-        user::create([
-            'id_user' => $request->id_user,
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password,
-        ]);
+        $id_user = $request->id_user;
+        $email = $request->email;
 
-        return redirect()->to('/user');
-    }
-    
+        $cekId = user::where('id_user', $id_user)->exists();
+        $cekEmail = user::where('email', $email)->exists();
 
-    public function login(Request $request)
-    {
-        $existingUser = User::where('email', $request->email)
-            ->orWhere('id_user', $request->id_user)
-            ->exists();
-    
-        if ($existingUser) {
-            return "Email atau ID user sudah ada dalam database";
+
+        if($cekId && $cekEmail){
+            return "id user & email tidak boleh sama";
+        }else if($cekId){
+            return "id user tidak boleh sama";
+        }else if($cekEmail){
+            return "email tidak boleh sama";
         }
-    
-        $user = new User;
-        $user->id_user = $request->id_user;
-        $user->name = $request->name; 
-        $user->email = $request->email; 
-        $user->password = $request->password; 
-        $user->save();
-    
-        return "Data user berhasil ditambah";
-    }
- 
-    public function show(string $id)
-    {
-        
-    }
 
-   
+           user::create([
+                "id_user" =>$request->id_user,
+                "name" =>$request->name,
+                "email" =>$request->email,
+                "password" =>$request->password,
+            ]);
+
+            // FORMAT HTML
+            return redirect()->to('/user');
+
+            // FORMAT JSON
+            // return "data berhasil ditambah";
+    }
+    
+
+   // function untuk melakukan aktivitas edit by id data pada format html
     public function edit(string $id)
     {
         $data_user = user::where('id_user',$id)->first();
-        
         return view('user.edit', compact('data_user'));
     }
 
-  
+
+    // function untuk mengupdate data 
     public function update(Request $request, string $id)
     {
-        user::where('id_user', $id)->update([
-            'id_user' => $request->id_user,
+        $cek = user::where('id_user', $id)->first();
+
+        if(!$cek){
+            return "id user tidak ditemukan";
+        }
+        $data = user::where('id_user', $id)->update([
+            // 'id_user' => $request->id_user,
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
         ]);
 
+        // FORMAT HTML
         return redirect()->to('/user');
+
+        // FORMAT JSON
+        // return reponse()->json([$data]);
+        // return "berhasil edit";
     }
 
-    
+    // untuk menghapus data pada format html
     public function destroy(string $id)
     {
         user::where('id_user', $id)->delete();
 
         return redirect()->to('/user');
+    }
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+    // function untuk menampilkan data berdasarkan id pada format json
+    public function show($id_user = null)
+    {
+        if($id_user){
+            $user = user::where('id_user', $id_user)->get();
+            if($user->isEmpty()){
+                return "id user tidak ditemukan";
+            }else{
+                return $user;
+            }
+        }else{
+            return user::all();
+        }
     }
 }

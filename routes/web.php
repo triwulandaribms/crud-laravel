@@ -27,7 +27,7 @@ Route::delete('/user/destroy/{id}', [userController::class, 'destroy'])->name('u
 
 
 //produk
-
+Route::get('/produk',[produkController::class, 'index'])->name('index');
 
 //order
 

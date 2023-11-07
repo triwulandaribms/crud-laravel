@@ -15,7 +15,7 @@ class produkController extends Controller
  
     public function index()
     {
-        return produk::orderBy('kode_produk', 'asc')->get();
+        return produk::orderBy('kode_produk', 'asc')->get();   
     }
 
     public function indexKode($kode_produk = null)

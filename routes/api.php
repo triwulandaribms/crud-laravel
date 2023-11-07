@@ -15,9 +15,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // TABEL USERS
 Route::get('/user', [userController::class, 'index']);
-Route::get('/user/{id}', [userController::class, 'indexId']);
+Route::get('/user/{id_user}', [userController::class, 'show']);
 Route::post('/addUser', [userController::class, 'store']);
-Route::post('/login', [userController::class, 'login']);
+Route::put('/edit/{id}', [userController::class, 'update']);
+Route::delete('/hapus', [userController::class, 'hapus']);
 
 
 
