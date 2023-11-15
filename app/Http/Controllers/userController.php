@@ -73,13 +73,9 @@ class userController extends Controller
     // function untuk mengupdate data 
     public function update(Request $request, string $id)
     {
-        $cek = user::where('id_user', $id)->first();
-
-        if(!$cek){
-            return "id user tidak ditemukan";
-        }
+       
         $data = user::where('id_user', $id)->update([
-            // 'id_user' => $request->id_user,
+            'id_user' => $request->id_user,
             'name' => $request->name,
             'email' => $request->email,
             'password' => $request->password,
@@ -89,11 +85,10 @@ class userController extends Controller
         return redirect()->to('/user');
 
         // FORMAT JSON
-        // return reponse()->json([$data]);
         // return "berhasil edit";
     }
 
-    // untuk menghapus data pada format html
+    // untuk menghapus data 
     public function destroy(string $id)
     {
         user::where('id_user', $id)->delete();

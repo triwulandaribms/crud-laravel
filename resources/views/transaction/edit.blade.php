@@ -44,37 +44,44 @@
   <main class="container">
     <div class="my-3 p-3 bg-body rounded shadow-sm">
 
-        <form action="{{ route('user.update', $data_user->id_user) }}" method="post">
+        <form action="{{ route('transaction.update', $data_transaksi->id_transaksi) }}" method="post">
             @csrf
             @method('PUT')
         
             <div class="mb-3 row">
-                <label for=""  class="col-sm-2 col-form-label">ID</label>
+                <label for=""  class="col-sm-2 col-form-label">ID TRANSAKSI</label>
                 <div class="col-sm-10">
-                    <input type="text" name="id_user" value="{{ $data_user->id_user }}" class="form-control bg-light text-dark" id="id">
+                    <input type="text" name="id_transaksi" value="{{ $data_transaksi->id_transaksi }}" class="form-control bg-light text-dark" id="id">
                 </div>
             </div>
 
             <div class="mb-3 row">
-                <label for="" class="col-sm-2 col-form-label">NAMA</label>
+                <label for=""  class="col-sm-2 col-form-label">KODE PRODUK</label>
                 <div class="col-sm-10">
-                    <input type="text" name="name" value="{{ $data_user->name }}" class="form-control bg-light text-dark" id="nama">
+                    <input type="text" name="kode_produk_fk" value="{{ $data_transaksi->kode_produk_fk }}" class="form-control bg-light text-dark" kode="id">
                 </div>
-            </div>
+              </div>
                 
             <div class="mb-3 row">
-                <label for="" class="col-sm-2 col-form-label">EMAIL</label>
+                <label for="" class="col-sm-2 col-form-label">JUMLAH BELI</label>
                 <div class="col-sm-10">
-                    <input type="email" name="email"  value="{{ $data_user->email }}" class="form-control bg-light text-dark" id="email">
+                    <input type="number" name="jumlah_beli" value="{{ $data_transaksi->jumlah_beli }}" class="form-control bg-light text-dark" id="jumlah">
                 </div>
             </div>
 
             <div class="mb-3 row">
-                <label for="" class="col-sm-2 col-form-label">PASSWORD</label>
+                <label for="" class="col-sm-2 col-form-label">NOMINAL PEMBAYARAN</label>
                 <div class="col-sm-10">
-                    <input type="text" name="password" value="{{ $data_user->password }}" class="form-control bg-light text-dark" id="password">
+                    <input type="number" name="nominal_pembayaran" value="{{ $data_transaksi->nominal_pembayaran }}" class="form-control bg-light text-dark" id="nominal">
                 </div>
             </div>
+
+            <div class="mb-3 row">
+              <label for="" class="col-sm-2 col-form-label">METODE PEMBAYARAN</label>
+              <div class="col-sm-10">
+                  <input type="text" name="metode_pembayaran"  value="{{ $data_transaksi->metode_pembayaran }}" class="form-control bg-light text-dark" id="transaksi">
+              </div>
+          </div>
 
             <div class="mb-3 row text-center">
                 <div class="col-sm-12">

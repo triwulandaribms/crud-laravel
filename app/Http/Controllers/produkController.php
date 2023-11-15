@@ -15,92 +15,92 @@ class produkController extends Controller
  
     public function index()
     {
-        return produk::orderBy('kode_produk', 'asc')->get();   
+        // FORMAT HTML
+        $data_produk = produk::orderBy('kode_produk', 'asc')->get();
+        return view('produk.index', compact('data_produk'));
+
+        // FORMAT JSON
+        // return produk::orderBy('kode_produk','asc')->get();
+
     }
 
-    public function indexKode($kode_produk = null)
+    public function create()
     {
-        if ($kode_produk) {
-            $produk = produk::where('kode_produk', $kode_produk)->get();
-    
-            if ($produk->isEmpty()) {
-                return "Kode produk tidak ditemukan";
-            }
-    
-            return $produk;
-        } else {
-            return produk::all();
-        }
+        return view('produk.create');
     }
-    
 
     public function store(Request $request)
     {
         $kode_produk = $request->kode_produk;
 
-        $produkExists = produk::where('kode_produk', $kode_produk)->exists();
+        $cekKode = produk::where('kode_produk', $kode_produk)->exists();
 
-        if ($produkExists) {
-            return "Kode produk sudah ada dalam database. Data tidak dapat ditambahkan.";
+        if ($cekKode) {
+            return "kode produk tidak boleh sama";
         }
 
-        $produk = new produk;
-        $produk->kode_produk = $kode_produk;
-        $produk->nama_produk = $request->nama_produk; 
-        $produk->deskripsi = $request->deskripsi;
-        $produk->brand = $request->brand; 
-        $produk->harga = $request->harga;
-        $produk->stok = $request->stok;  
+        produk::create([
+            "kode_produk" =>$kode_produk,
+            "nama_produk" =>$request->nama_produk,
+            "kategori_produk" =>$request->kategori_produk,
+            "harga" =>$request->harga,
+            "stok" =>$request->stok,
 
-        if ($produk->save()) {
-            return "Data berhasil ditambah";
-        } else {
-            return "Gagal menambahkan data";
-        }
+        ]);
+
+        // FORMAT HTML
+        return redirect()->to('/produk');
+
+        // FORMAT JSON
+        // return "berhasil tambah data";
     }
 
+    public function edit(string $id)
+    {
+        $data_produk = produk::where('kode_produk', $id)->first();
+        return view('produk.edit', compact('data_produk'));
+    }
 
     public function update(Request $request, string $id)
     {
-     
-        $produk = produk::where('kode_produk', $id)->first();
-
-        if (!$produk) {
-            return "Kode produk tidak ditemukan";
-        }
     
         produk::where('kode_produk', $id)->update([
+            'kode_produk' => $request->kode_produk,
             'nama_produk' => $request->nama_produk,
-            'deskripsi' => $request->deskripsi,
-            'brand' => $request->brand,
+            'kategori_produk' => $request->kategori_produk,
             'harga' => $request->harga,            
-            'stok' => $request->stok
+            'stok' => $request->stok,
         ]);
 
-        return "Data berhasil di update";
+        // FORMAT HTML
+        return redirect()->to('/produk');
+
+        // FORMAT JSON
+        // return "Data berhasil di update";
+    }
+
+    public function destroy(string $id)
+    {
+       produk::where('kode_produk', $id)->delete();
+       return redirect()->to('/produk');
     }
 
 
-
-
-    public function deleteAll()
+    //////////////////////////////////////////////////////////////////////////////
+    // function untuk menampilkan data berdasarkan id pada format json
+    public function show($kode_produk = null)
     {
-        produk::truncate(); 
-        return "Semua data produk berhasil dihapus";
-    }
- 
-
-    public function delete(string $kode_produk)
-    {
-        $produk = produk::where('kode_produk', $kode_produk)->first();
-
-        if (!$produk) {
-            return "Produk dengan kode_produk $kode_produk tidak ditemukan. Data tidak dapat dihapus.";
+        if($kode_produk){
+            $produk = user::where('id_user', $kode_produk)->get();
+            if($produk->isEmpty()){
+                return "id user tidak ditemukan";
+            }else{
+                return $produk;
+            }
+        }else{
+            return user::all();
         }
-
-            $produk->delete();
-
-        return "Data berhasil dihapus";
     }
-
 }
+
+

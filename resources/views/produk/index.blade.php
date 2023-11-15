@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tambah Data</title>
+    <title>Data Produk</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 </head>
 <body class="bg-light">
@@ -45,28 +45,30 @@
     <table class="table table-success table-striped">
       <thead>
         <tr  class="table-success">
-            <th>ID</th>
+            <th>KODE</th>
             <th>NAMA</th>
-            <th>EMAIL</th>
-            <th>PASSWORD</th>
+            <th>KATEGORI</th>
+            <th>HARGA</th>
+            <th>STOK</th>
             <th>EDIT</th>
             <th>HAPUS</th>
         </tr>
     </thead>
     <tbody >
-        @foreach ($data_user as $user)
+        @foreach ($data_produk as $produk)
             <tr class="table-success">
-                <td>{{ $user->id_user }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->password }}</td>
+                <td>{{ $produk->kode_produk }}</td>
+                <td>{{ $produk->nama_produk }}</td>
+                <td>{{ $produk->kategori_produk }}</td>
+                <td>{{ $produk->harga }}</td>
+                <td>{{ $produk->stok }}</td>
                 <td>
-                    <form action="{{ route('user.edit', $user->id_user) }}">
+                    <form action="{{ route('produk.edit', $produk->kode_produk) }}">
                         <button>Edit</button>
                     </form>
                 </td>
                 <td>
-                    <form action="{{ route('user.destroy', $user->id_user) }}" method="POST">
+                    <form action="{{ route('produk.destroy', $produk->kode_produk) }}" method="POST">
                       @csrf
                       @method('DELETE')
                         <button>hapus</button>
@@ -76,13 +78,12 @@
         @endforeach
     </tbody>
     </table>
-    
-            <div class="mb-3 row text-center">
-                <div class="col-sm-12">
-                    <a href="{{ route('user.create') }}" type="submit" class="btn btn-primary mx-auto" >Tambah data</a>
-                  </div>
-            </div>
 
+    <div class="mb-3 row text-center">
+        <div class="col-sm-12">
+            <a href="{{ route('produk.create') }}" class="btn btn-primary mx-auto" >Tambah data</a>
+        </div>
+    </div>
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
