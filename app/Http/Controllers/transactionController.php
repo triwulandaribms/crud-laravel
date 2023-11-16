@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\transaction;
+use App\Models\export;
+use Maatwebsite\Excel\Facades\Excel;
 
 class transactionController extends Controller
 {
@@ -101,5 +103,10 @@ class transactionController extends Controller
         }else{
             return transaction::all();
         }
+    }
+
+    public function ekspor()
+    {    
+        return Excel::download(new export, 'coba.xlsx');
     }
 }

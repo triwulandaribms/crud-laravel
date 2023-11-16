@@ -45,8 +45,8 @@
 <table class="table table-success table-striped">
   <thead>
       <tr class="table-success">
-          <th>KODE PRODUK</th>
           <th>ID TRANSAKSI</th>
+          <th>KODE PRODUK</th>
           <th>NAMA PRODUK</th>
           <th>KATEGORI PRODUK</th>
           <th>JUMLAH BELI</th>
@@ -66,8 +66,7 @@
 </table>
 
     <div class="mb-3">
-      <a href="{{ route('exportToExcel') }}" class="btn btn-success">Export to Excel</a>
-      <a href="{{ route('exportToPdf') }}" class="btn btn-danger">Export to PDF</a>
+      <a href="{{ url('/ekspor') }}" class="btn btn-success">Export to Excel</a>
     </div> 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">

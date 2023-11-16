@@ -42,6 +42,7 @@
 
   
   <div class="my-3 p-3 bg-body rounded shadow-sm">
+    <a href="{{ url('/ekspor') }}" class="btn btn-success">Export to Excel</a>
     <table class="table table-success table-striped">
       <thead>
         <tr  class="table-success">

@@ -1,22 +1,25 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\dataGabungExport;
+use App\Http\Controllers\gabungController; 
 
-class excelController extends Controller
+class ExcelController extends Controller
 {
-    public function exportToExcel()
+    public function export(gabungController $gabungController)
     {
-        return Excel::download(new laporanExport, 'laporan.xlsx');
-    }
 
-    public function exportToPDF()
-    {
-        $data_laporan = laporan::with('produk', 'transaksi')->get();
-    
-        $pdf = SnappyPdf::loadView('laporan.export_pdf', compact('data_laporan'));
-    
-        return $pdf->download('laporan.pdf');
+        $data = $gabungController->lihatGabung();
+
+        $export = new dataGabungExport($data);
+        
+        return Excel::download($export, 'dataGabung~'.Carbon::now()->timestamp.'.xlsx');
     }
 }
+
+

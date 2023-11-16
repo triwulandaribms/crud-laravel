@@ -24,4 +24,9 @@ class transaction extends Model
     public static function getAll(){
         return transaction::all();
     }
+
+    public function transaksi()
+    {
+        return $this->hasOne(transaction::class, 'kode_produk_fk', 'kode_produk');
+    }
 }

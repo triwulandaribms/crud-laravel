@@ -4,9 +4,14 @@ use App\Http\Controllers\transactionController;
 use App\Http\Controllers\gabungController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\produkController;
-// use APP\Http\Controllers\excelController;
+use App\Http\Controllers\ExcelController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Exports\dataGabungExport;
+use Maatwebsite\Excel\Facades\Excel;
+
+
+
 
 
 Route::get('/', function () {
@@ -44,8 +49,9 @@ Route::post('/transaction/store', [transactionController::class, 'store'])->name
 Route::get('/transaction/edit/{id}', [transactionController::class, 'edit'])->name('transaction.edit');
 Route::put('/transaction/update/{id}', [transactionController::class, 'update'])->name('transaction.update');
 Route::delete('/transaction/destroy/{id}', [transactionController::class, 'destroy'])->name('transaction.destroy');
+Route::get('/ekspor', [transactionController::class, 'ekspor'])->name('ekspor');
 
 
 // tampil gabungan
 Route::get('/tampil', [gabungController::class, 'lihatGabung'])->name('lihatGabung');
-// Route::get('/excel')
+// Route::get('/ekspor', [ExcelController::class, 'export']);
